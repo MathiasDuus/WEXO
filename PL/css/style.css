@@ -1,0 +1,331 @@
+
+html,
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+    background-color: white;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+}
+
+.white-text{
+    color: white;
+}
+
+.ntd{
+    text-decoration: none;
+}
+
+a{
+    color: red;
+    text-decoration: underline;
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.upperheader{
+    width: 100%;
+    height: 41px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.bg-darkgray{
+    background-color: rgb(51,51,51);
+}
+
+.card_padding{
+    padding-top: 3%;
+}
+
+.card-margin{
+    margin-top: 3%;
+}
+
+.card-image{
+    height: 223px;
+    width: 100%;
+}
+
+
+#header a{
+    text-decoration: none;
+}
+
+.navbar-dark .navbar-nav .show > .nav-link,
+.navbar-dark .navbar-nav .active > .nav-link,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .nav-link.active{
+    color: red;
+}
+
+.navbar-dark .navbar-nav .nav-link{
+    color: white;
+    float: right;
+}
+
+
+
+.nav-height{
+    height: 2em;
+}
+
+.search{
+    padding: 0;
+    height: 20px;
+}
+
+.search-btn{
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: white;
+    font-weight: bolder;
+}
+
+.search-btn:hover{
+    background: transparent;
+    color: white;
+}
+
+.dotted-bottom{
+    border: 2px dotted transparent;
+    border-bottom: 2px dotted gray;
+}
+
+.NotAMember-btn{
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: white;
+    margin-left: 20px;
+}
+
+.footer-link{
+    color: rgba(255,255,255,0.5);
+    text-decoration: underline;
+}
+
+.social{
+    height: 14px;
+}
+
+.container{
+    background-color: whitesmoke;
+}
+
+.frontpage-bottom{
+    border-top: 2px dotted grey;
+    margin: 0;
+}
+
+.frontpage-title {
+    margin: 10px 0 0 10px;
+    height: 1em;
+    width: 100%;
+}
+
+.card-title{
+    color: white;
+}
+
+.comment-bubble {
+    height: 1.5em;
+    width: 1.5em;
+    margin-bottom: 2%;
+    margin-top: 1%;
+}
+
+.card{
+    background-color: whitesmoke;
+    border: none;
+}
+
+.commentCount{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bolder;
+}
+
+.img-container {
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-left: auto;
+}
+
+#most-commented{
+    padding-bottom: 1%;
+}
+
+.frontpage-title p{
+    color: red;
+    font-weight: 550;
+}
+
+#frontpage-bottom-header p{
+    font-weight: bold;
+}
+
+.footer{
+    color: rgba(255,255,255,0.5);
+    position: inherit/*absolute*/;
+    width: 100%;
+    background-color: rgb(51,51,51);
+    height: 5em;
+    left: 0;
+    bottom: 0;
+}
+
+.footer p{
+    margin-bottom: 0;
+}
+
+#news-date {
+    width: 100%;
+    margin: 0;
+    font-size: small;
+}
+
+#news-title{
+    color: red;
+    font-weight: bold;
+}
+
+#news-text{
+    margin-bottom: 0;
+}
+
+#news-read_more{
+    margin-left: 0;
+    margin-bottom: 2em;
+}
+
+#coming-soon-date {
+    width: 100%;
+    margin: 0;
+    font-size: small;
+}
+
+#coming-soon-title{
+    color: red;
+    font-weight: bold;
+}
+
+#coming-soon-text{
+    margin-bottom: 0;
+}
+
+#coming-soon-poster{
+    height: 10em;
+    margin-bottom: 2em;
+}
+
+.row{
+    margin: 0;
+}
+
+.card-img-overlay{
+    padding: 0;
+    opacity: 0;
+}
+
+.card-img-overlay:hover{
+    opacity: 100%
+}
+
+#poster-overlay-title {
+    margin-top: -3em;
+    color: white;
+    margin-left: 1em;
+    font-weight: bold;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+#login_form{
+    padding: 1em;
+}
+
+.cms_poster{
+    height: 200px;
+    width: auto;
+}
+
+#cms{
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#cms_button{
+    margin-bottom: 1em;
+}
+
+#flickClickLogo{
+    margin-left: 0;
+}
+
+#search_form{
+    padding-top: 1em;
+}
+
+#search_input{
+    width: 100%;
+}
+
+#front{
+    padding-bottom: 2em;
+}
+
+#poster_movie{
+    width: 100%
+}
+
+#trailer_movie{
+    width: 100%;
+    height: 360px;
+    border-width: 0;
+}
+
+.red-text{
+    color:red;
+}
+
+#comment_form{
+    width: 100%
+}
+
+#comment_title{
+    height: 1.5em;
+}
+
+.profile_pic{
+    width: 100%;
+}
+
+.news{
+    margin-bottom: 3em;
+}
+
+.news_long_cut_text{
+    margin-bottom: 0;
+}
+
+.cms-news{
+    margin: 2em;
+}
+
+.contact-form{
+    margin: 0 15% 0 15%;
+    padding-bottom: 2rem;
+}
+
+.contact-form h2{
+    text-align: center;
+}
+
