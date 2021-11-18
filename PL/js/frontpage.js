@@ -12,37 +12,47 @@ $(document).ready(function() {
             if (info['status'] === "error")
                 alert(info['message']);
             else {
-
-                let i = 0;
-                Object.keys(info['movies']).forEach(key => {
-                    const genre = info['movies'][key];
-                    const type = "movies";
-                    let appendString;
-                    key = key.toLowerCase().replace(/\b[a-z]/g, function (letter) {
-                        return letter.toUpperCase();
-                    });
-                    
-                    // displays the genre name and how many movies in genre
-                    appendString = '<div class="row"><h2 onclick="showGenre(this, ' + type + ')" class="genre-title">' + key + '</h2>' +
-                        '<h2 class="genre-count ms-auto">('+genre['count']+')</h2></div><div class="row">';
-                    // delete genre['count'];
-                    console.log(genre)
-                    genre.forEach(movie => {
-                        let n = 25;
-                        let title = movie['title'];
-                        title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
-                        appendString += '' +
-                            '<div class="col-4 card-margin"><div class="card">' +
-                            '<img class="card-img card-image" src="' + movie["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
-                            '<h3 class="movie-title">' + title + '</h3>' +
-                            '</div></div>';
-                    })
-
-                    $('#leftCol').append(appendString + '</div>')
-                })
+                showFrontpage(info, "movies", "leftCol")
+                
+                // TODO: do not work with series GL HF
+                showFrontpage(info, "series", "rightCol")
+                
             }
         });
 });
+
+function showFrontpage(info,type,col){
+    let i = 0;
+    
+    Object.keys(info[type]).forEach(key => {
+        if (key === "count"){return;}
+        const genre = info[type][key];
+        let appendString;
+        key = key.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+            return letter.toUpperCase();
+        });
+
+        // displays the genre name and how many entries in each genre
+        appendString = '<div class="row"><h2 onclick="showGenre(this, ' + type + ')" class="genre-title">' + key + '</h2>' +
+            '<h2 class="genre-count ms-auto">('+info[type]['count'][i]+')</h2></div><div class="row">';
+
+        genre.forEach(movie => {
+            // Skips one iteration if it is not an object
+            if (typeof movie !== 'object' || movie === null){return;}
+            let n = 25;
+            let title = movie['title'];
+            title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
+            appendString += '' +
+                '<div class="col-4 card-margin"><div class="card">' +
+                '<img class="card-img card-image" src="' + movie["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
+                '<h3 class="movie-title">' + title + '</h3>' +
+                '</div></div>';
+        })
+
+        $('#'+col).append(appendString + '</div>')
+        i++;
+    })
+}
 
 
 function imgError(image) {

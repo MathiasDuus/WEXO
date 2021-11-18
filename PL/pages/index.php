@@ -2,8 +2,10 @@
 include "../templates/header.php";
 //include "../../DAL/Data.php";
 //$dat = new Data();
-//$movies = $dat->getMovies();
+//$movies = $dat->getData("series");
 //print("<pre>".print_r($movies,true)."</pre>");
+//$genres = ["action","comedy","thriller","war","romance","drama","crime","documentary","horror"];
+//$movies = $dat->getGenreCount($genres);
 //print_r($movies);
 //foreach ($movies['action'] as $key=>$movie) {
 //    echo $movie."<br>";
