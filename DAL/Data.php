@@ -1,10 +1,5 @@
 <?php
-// ['orig-480x334'] for poster image
 
-//foreach ($mov[1]['plprogram$thumbnails'] as $key=>$entry) {
-//    echo $entry."<br>";
-//    print_r($entry['plprogram$thumbnails'])."<br><br><br><br>";
-//}
 
 class Data
 {
@@ -18,32 +13,39 @@ class Data
     function getData(string $type, int $number=1, array $genres = [""]): array
     {
         $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&range=1-'.$number;
-            
+        
         $result = [];
         $arr = [];
         
         foreach ($genres as $genre) {
-            $response = file_get_contents($url.'&byTags='.$genre);
-  
-            if (isset($response['responseCode']))
+            if ($this->getGenreCount($genre, $type)<=0)
+                continue;
+            $curl = curl_init($url.'&byTags='.$genre);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($curl);
+            curl_close($curl);
+            
+            if (isset($output['responseCode']))
                 return array(
                     "status"=>"error",
-                    "message"=>"Wrong URL".$response);
+                    "message"=>"Wrong URL".$output);
             
-            $response = json_decode($response,true)['entries'];
+            $response = json_decode($output,true)['entries'];
             
             $i = 0;
             foreach ($response as $content) {
                 $arr[$i]['title'] = $content['title'];
                 foreach ($content['plprogram$thumbnails'] as $images) {
-                    
-                    if ($images['plprogram$assetTypes'][0]=="Poster"){
-                        $arr[$i]['poster'] = $images['plprogram$url'];
-                        break;
+                    foreach ($images['plprogram$assetTypes'] as $image) {
+                        if ($image=="Poster"){
+                            $arr[$i]['poster'] = $images['plprogram$url'];
+                            break;
+                        }
                     }
                 }
                 $i++;
             }
+            
             if($genre == ""){
                 $genre = "no_genre";
             }
@@ -70,11 +72,90 @@ class Data
         else{
             $count = [];
             foreach ($genres as $genre) {
-                $response = file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre);
-                array_push($count, json_decode($response,true)['entryCount']);
+                $response = json_decode(file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre),true)['entryCount'];
+                if($response <= 0)
+                    continue;
+                array_push($count, $response);
             }
             return $count;
         }
+    }
+    
+    function getAllGenre(string $type, string $genre){//, int $from, int $to){
+        
+        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type;//.'&range=1-'.$number;
+        
+        $result = [];
+        $arr = [];
+//        $first = true;
+
+
+//        for ($j=0;$j<$repeat;$j++){
+//            if ($first) {
+//                $curl = curl_init($url .'&range=0-'.$divideBy.'&byTags='.$genre);
+//                $first = false;
+//            }
+//            else{
+//                $curl = curl_init($url . '&range='.$divideBy*$j .'-'.$divideBy*($j+1) .'&byTags=' . $genre);
+//            }
+//            
+//            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+//            $output = curl_exec($curl);
+//            curl_close($curl);
+//    
+//            if (isset($output['responseCode']))
+//                return array(
+//                    "status"=>"error",
+//                    "message"=>"Wrong URL".$output);
+//            
+//            $response = json_decode($output,true)['entries'];
+//            
+//            foreach ($response as $content) {
+//                $arr[$i]['title'] = $content['title'];
+//                foreach ($content['plprogram$thumbnails'] as $images) {
+//                    foreach ($images['plprogram$assetTypes'] as $image) {
+//                        if ($image=="Poster"){
+//                            $arr[$i]['poster'] = $images['plprogram$url'];
+//                            break;
+//                        }
+//                    }
+//                }
+//                $i++;
+//            }
+//        }
+        $curl = curl_init($url.'&range=0-500&byTags='.$genre);
+        
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        
+        if (isset($output['responseCode']))
+            return array(
+                "status"=>"error",
+                "message"=>"Wrong URL".$output);
+        
+        $response = json_decode($output,true)['entries'];
+        
+        $i = 0;
+        foreach ($response as $content) {
+            $arr[$i]['title'] = $content['title'];
+            foreach ($content['plprogram$thumbnails'] as $images) {
+                foreach ($images['plprogram$assetTypes'] as $image) {
+                    if ($image=="Poster"){
+                        $arr[$i]['poster'] = $images['plprogram$url'];
+                        break;
+                    }
+                }
+            }
+            $i++;
+        }
+        if($genre == "") {
+            $genre = "no_genre";
+        }
+        $result[$genre] = $arr;
+        
+        
+        return $result;
     }
 }
 
