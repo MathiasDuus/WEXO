@@ -81,49 +81,15 @@ class Data
         }
     }
     
-    function getAllGenre(string $type, string $genre){//, int $from, int $to){
+    function getAllGenre(string $type, string $genre, string $range){
         
-        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type;//.'&range=1-'.$number;
+        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type
+            .'&byTags='.$genre.'&range='.$range;
         
         $result = [];
         $arr = [];
-//        $first = true;
-
-
-//        for ($j=0;$j<$repeat;$j++){
-//            if ($first) {
-//                $curl = curl_init($url .'&range=0-'.$divideBy.'&byTags='.$genre);
-//                $first = false;
-//            }
-//            else{
-//                $curl = curl_init($url . '&range='.$divideBy*$j .'-'.$divideBy*($j+1) .'&byTags=' . $genre);
-//            }
-//            
-//            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-//            $output = curl_exec($curl);
-//            curl_close($curl);
-//    
-//            if (isset($output['responseCode']))
-//                return array(
-//                    "status"=>"error",
-//                    "message"=>"Wrong URL".$output);
-//            
-//            $response = json_decode($output,true)['entries'];
-//            
-//            foreach ($response as $content) {
-//                $arr[$i]['title'] = $content['title'];
-//                foreach ($content['plprogram$thumbnails'] as $images) {
-//                    foreach ($images['plprogram$assetTypes'] as $image) {
-//                        if ($image=="Poster"){
-//                            $arr[$i]['poster'] = $images['plprogram$url'];
-//                            break;
-//                        }
-//                    }
-//                }
-//                $i++;
-//            }
-//        }
-        $curl = curl_init($url.'&range=0-500&byTags='.$genre);
+        
+        $curl = curl_init($url);
         
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);

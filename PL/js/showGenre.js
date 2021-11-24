@@ -6,16 +6,21 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let type = urlParams.get('type');
     let genre = urlParams.get('genre');
-    let count = urlParams.get('count');
+    let range = urlParams.get('range');
+    const num = range.split('-');
+    if (num[0]==="1"){
+        document.getElementById("previous").disabled = true;
+    }
+    
     $.post(projectHandler,
         {
             action: 'showGenre',
             genre: genre,
             type: type,
-            count: count
+            range: range
         },
         function(response){
-        console.log("hello")
+        
         console.log(response)
             let info = JSON.parse(response);
             if (info['status'] === "error")
@@ -25,8 +30,6 @@ $(document).ready(function() {
             }
         });
 });
-
-
 
 function showGenre(info,type,col){
     let i = 0;
@@ -43,8 +46,7 @@ function showGenre(info,type,col){
             });
 
             // displays the genre name and how many entries in each genre
-            let jsOnClick = "'"+key+"','"+type+"'";
-            appendString = '<div class="row"><h2 onclick="showGenre(' + jsOnClick + ')" class="genre-title">' + key + '</h2>' +
+            appendString = '<div class="row"><h2 class="genre-title">' + key + '</h2>' +
                 '<h2 class="genre-count ms-auto">(' + info[type]['count'] + ')</h2></div><div class="row">';
             
             genre.forEach(movie => {
@@ -74,4 +76,35 @@ function imgError(image) {
     image.onerror = "";
     image.src = "../billeder/lorem_poster.png";
     return true;
+}
+
+function previous(){
+    let href = new URL(window.location.href);
+    let range = href.searchParams.get('range');
+    const num = range.split('-');
+    let first = parseInt(num[0])-18;
+    let second = parseInt(num[1])-18;
+
+    if (first<=0){
+        first = 1;
+    }
+    if (second<=0){
+        second = 18;
+    }
+    
+    href.searchParams.set('range', first+"-"+second);
+    window.location.href = href;
+
+}
+
+function next(){
+    let href = new URL(window.location.href);
+    let range = href.searchParams.get('range');
+    const num = range.split('-');
+    let first = parseInt(num[0])+18;
+    let second = parseInt(num[1])+18;
+
+    href.searchParams.set('range', first+"-"+second);
+    window.location.href = href;
+
 }

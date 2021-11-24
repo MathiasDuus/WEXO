@@ -44,7 +44,7 @@ function showContent(info,type,col){
             });
 
             // displays the genre name and how many entries in each genre
-            let jsOnClick = "'"+key+"','"+type+"',"+info[type]['count'][i];
+            let jsOnClick = "'"+key+"','"+type+"'";
             appendString = '<div class="row"><h2 onclick="showGenre(' + jsOnClick + ')" class="genre-title">' + key + '</h2>' +
                 '<h2 class="genre-count ms-auto">(' + info[type]['count'][i] + ')</h2></div><div class="row">';
             
@@ -75,11 +75,10 @@ function showContent(info,type,col){
  * Redirects to showGenre.php
  * @param genre String gener
  * @param type  movie|series
- * @param count how many in genre
  */
-function showGenre(genre,type,count){
+function showGenre(genre,type){
     genre = genre.toLowerCase();
-    window.location.href = "./showGenre.php?genre="+genre+"&type="+type+"&count="+count;
+    window.location.href = "./showGenre.php?genre="+genre+"&type="+type+"&range=1-18";
     
 }
 

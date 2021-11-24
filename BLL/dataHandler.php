@@ -23,11 +23,12 @@ if ($action == "frontpage"){
 if ($action == "showGenre") {
     $genre = $_POST['genre'];
     $type = $_POST['type'];
-//    $count = $_POST['count'];
-    $movies = $data->getAllGenre($type, $genre);
+    $range = $_POST['range'];
     
-    $result['movie'] = $movies;
-    $result['movie']['count']=$data->getGenreCount($genre, $type);
+    $movies = $data->getAllGenre($type, $genre, $range);
+    
+    $result[$type] = $movies;
+    $result[$type]['count']=$data->getGenreCount($genre, $type);
     
     echo json_encode($result, JSON_UNESCAPED_SLASHES);
 }

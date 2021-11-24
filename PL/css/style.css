@@ -115,3 +115,7 @@ a{
 .movie-title{
     overflow-wrap: break-word;
 }
+
+.btn-m{
+    margin: 1ch;
+}
