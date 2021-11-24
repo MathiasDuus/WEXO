@@ -2,7 +2,7 @@ html,
 body {
     margin:0;
     padding:0;
-    background-color: white;
+    background-color: dimgrey;
     font-size: 1rem;
     line-height: 1.5;
     min-height: 100vh;
@@ -119,3 +119,9 @@ a{
 .btn-m{
     margin: 1ch;
 }
+
+.nav-item{
+    font-weight: bold;
+}
+
+

@@ -22,25 +22,17 @@ session_start();
 <body>
 
 <header id="header">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-warning">
         <div class="container-fluid">
             <a id="logo" href="./"><img class="navbar-img" src="../billeder/navbar-icon.png" alt="WEXO Code Challenge"/></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
-                <ul class="navbar-nav me-lg-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page"  href="#movies">MOVIES</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#series">SERIES</a>
-                    </li>
-                </ul>
-                <div class="navbar-nav justify-content-end">
-                    <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0">
+                <div class="navbar-nav ms-auto">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link float" href="#login">Login</a>
+                            <a class="nav-link" href="#login">Login</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#register">Register</a>

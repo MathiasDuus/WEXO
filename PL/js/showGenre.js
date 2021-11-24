@@ -1,17 +1,21 @@
 const projectHandler = "../../BLL/dataHandler.php";
 
 
+
 $(document).ready(function() {
+    // The following gets the parameters from the url
     const queryString = window.location.search.substring(1);
     const urlParams = new URLSearchParams(queryString);
     let type = urlParams.get('type');
     let genre = urlParams.get('genre');
     let range = urlParams.get('range');
     const num = range.split('-');
+    // if the first number in the range if 1, disable previous button
     if (num[0]==="1"){
         document.getElementById("previous").disabled = true;
     }
     
+    // Send request to get info from the API
     $.post(projectHandler,
         {
             action: 'showGenre',
@@ -20,25 +24,31 @@ $(document).ready(function() {
             range: range
         },
         function(response){
-        
-        console.log(response)
+        // Converts the JSON response from JSON to JS object
             let info = JSON.parse(response);
+            // If there is an error alert it
             if (info['status'] === "error")
                 alert(info['message']);
             else {
+                // Function to generate all html needed to display the movies with poster and title
                 showGenre(info, type, "genre_row")
             }
         });
 });
 
+/**
+ * Generates the html needed to display the content with their poster and title
+ * @param info  All data needed for the movie|series
+ * @param type  movie|series
+ * @param col   Where it should be placed
+ */
 function showGenre(info,type,col){
     let i = 0;
 
     Object.keys(info[type]).forEach(key => {
         if (key === "count"){return;}
-        console.log("halha")
+        
         if (info[type]['count'] >=1) {
-            console.log("asdjaslkdjlak")
             const genre = info[type][key];
             let appendString;
             key = key.toLowerCase().replace(/\b[a-z]/g, function (letter) {
