@@ -2,15 +2,18 @@ const projectHandler = "../../BLL/dataHandler.php";
 
 
 $(document).ready(function() {
+    // Send post request to php to get data from the API
     $.post(projectHandler,
         {
             action: 'frontpage'
         },
         function(response){
+        // Converts the JSON to JS object
             let info = JSON.parse(response);
             if (info['status'] === "error")
                 alert(info['message']);
             else {
+                // Calls function to display movies and series
                 showContent(info, "movie", "leftCol")
 
                 showContent(info, "series", "rightCol")
@@ -19,10 +22,13 @@ $(document).ready(function() {
         });
 });
 
+/**
+ * Replaces a broken image with a placeholder
+ * @param image The image element
+ */
 function imgError(image) {
     image.onerror = "";
     image.src = "../billeder/lorem_poster.png";
-    return true;
 }
 
 /**
@@ -35,10 +41,15 @@ function showContent(info,type,col){
     let i = 0;
 
     Object.keys(info[type]).forEach(key => {
+        // if the key is count it shall return
         if (key === "count"){return;}
+        // Ensures that there is at least one movie/series 
         if (info[type]['count'][i] >=1) {
-            const genre = info[type][key];
+            // All movies/series in a genre
+            const data = info[type][key];
+            // String used for appending to col
             let appendString;
+            // Makes the first letter in the genre name uppercase
             key = key.toLowerCase().replace(/\b[a-z]/g, function (letter) {
                 return letter.toUpperCase();
             });
@@ -48,18 +59,19 @@ function showContent(info,type,col){
             appendString = '<div class="row"><h2 onclick="showGenre(' + jsOnClick + ')" class="genre-title">' + key + '</h2>' +
                 '<h2 class="genre-count ms-auto">(' + info[type]['count'][i] + ')</h2></div><div class="row">';
             
-            genre.forEach(movie => {
+            // Loop to add poster and title to append string
+            data.forEach(content => {
                 // Skips one iteration if it is not an object
-                if (typeof movie !== 'object' || movie === null) {
+                if (typeof content !== 'object' || content === null) {
                     return;
                 }
                 
                 let n = 17;
-                let title = movie['title'];
+                let title = content['title'];
                 title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
                 appendString += '' +
                     '<div class="col-4 card-margin"><div class="card">' +
-                    '<img class="card-img card-image" src="' + movie["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
+                    '<img class="card-img card-image" src="' + content["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
                     '<h3 class="movie-title">' + title + '</h3>' +
                     '</div></div>';
                 
@@ -77,7 +89,9 @@ function showContent(info,type,col){
  * @param type  movie|series
  */
 function showGenre(genre,type){
+    // Makes the genre name lower case
     genre = genre.toLowerCase();
+    // Sends user to the link
     window.location.href = "./showGenre.php?genre="+genre+"&type="+type+"&range=1-18";
     
 }

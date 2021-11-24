@@ -1,10 +1,9 @@
 <?php
 
-
 class Data
 {
     /**
-     * Gets a number of movies, optional from each genre
+     * Gets movies/series within a range, with a given genre
      * @param string $type      series|movies
      * @param int $number       How many movies/series, default: 1
      * @param array $genres     The genre(s) of the series/movies, default: no_genre
@@ -81,8 +80,16 @@ class Data
         }
     }
     
-    function getAllGenre(string $type, string $genre, string $range){
-        
+    /**
+     * Gets movies/series of a given genre, within a given range.
+     * @param string $type
+     * @param string $genre
+     * @param string $range
+     * @return array
+     * Array containing title of movie and img link to poster
+     */
+    function getAllGenre(string $type, string $genre, string $range): array
+    {        
         $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type
             .'&byTags='.$genre.'&range='.$range;
         
@@ -115,7 +122,8 @@ class Data
             }
             $i++;
         }
-        if($genre == "") {
+        
+        if($genre == ""){
             $genre = "no_genre";
         }
         $result[$genre] = $arr;

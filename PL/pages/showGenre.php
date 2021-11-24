@@ -1,11 +1,5 @@
 <?php
 include "../templates/header.php";
-//include "../../DAL/Data.php";
-//$dat = new Data();
-//$movies = $dat->getAllGenre("movie","drama",4852);//drama
-//echo count($movies['drama'])."<br>";
-//
-//print("<pre>".print_r($movies,true)."</pre>");
 
 ?>
     

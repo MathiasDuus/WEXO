@@ -1,7 +1,6 @@
 const projectHandler = "../../BLL/dataHandler.php";
 
 
-
 $(document).ready(function() {
     // The following gets the parameters from the url
     const queryString = window.location.search.substring(1);
@@ -15,7 +14,7 @@ $(document).ready(function() {
         document.getElementById("previous").disabled = true;
     }
     
-    // Send request to get info from the API
+    // Send post request to php to get data from the API
     $.post(projectHandler,
         {
             action: 'showGenre',
@@ -46,6 +45,10 @@ function showGenre(info,type,col){
     let i = 0;
 
     Object.keys(info[type]).forEach(key => {
+        if (info[type]['count'] <=18){
+            document.getElementById("previous").disabled = true;
+            document.getElementById("next").disabled = true;            
+        }
         if (key === "count"){return;}
         
         if (info[type]['count'] >=1) {
@@ -56,7 +59,7 @@ function showGenre(info,type,col){
             });
 
             // displays the genre name and how many entries in each genre
-            appendString = '<div class="row"><h2 class="genre-title">' + key + '</h2>' +
+            appendString = '<div class="row"><h2 onclick="first()" class="genre-title">' + key + '</h2>' +
                 '<h2 class="genre-count ms-auto">(' + info[type]['count'] + ')</h2></div><div class="row">';
             
             genre.forEach(movie => {
@@ -82,12 +85,18 @@ function showGenre(info,type,col){
     })
 }
 
+/**
+ * Replaces a broken image with a placeholder
+ * @param image The image element
+ */
 function imgError(image) {
     image.onerror = "";
     image.src = "../billeder/lorem_poster.png";
-    return true;
 }
 
+/**
+ * Load the previous set of movies/series
+ */
 function previous(){
     let href = new URL(window.location.href);
     let range = href.searchParams.get('range');
@@ -107,6 +116,9 @@ function previous(){
 
 }
 
+/**
+ * Load the next set of movies/series
+ */
 function next(){
     let href = new URL(window.location.href);
     let range = href.searchParams.get('range');
@@ -117,4 +129,13 @@ function next(){
     href.searchParams.set('range', first+"-"+second);
     window.location.href = href;
 
+}
+
+/**
+ * Return to the first page of the genre
+ */
+function first(){
+    let href = new URL(window.location.href);
+    href.searchParams.set('range', "1-18");
+    window.location.href = href;    
 }
