@@ -1,7 +1,7 @@
 const projectHandler = "../../BLL/dataHandler.php";
 
 
-$(document).ready(function() {
+$(window).on('load', function() {
     // Send post request to php to get data from the API
     $.post(projectHandler,
         {

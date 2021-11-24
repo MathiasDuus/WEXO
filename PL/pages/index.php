@@ -12,7 +12,7 @@ include "../templates/header.php";
         </div>
             
             
-        <div id="rightCol" class="col">
+        <div id="rightCol" class="col-6">
             <div class="row">
                 <h1>Series</h1>
             </div>

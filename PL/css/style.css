@@ -73,23 +73,6 @@ a{
     margin: 0;
 }
 
-.card-img-overlay{
-    padding: 0;
-    opacity: 0;
-}
-
-.card-img-overlay:hover{
-    opacity: 100%
-}
-
-#poster-overlay-title {
-    margin-top: -3em;
-    color: white;
-    margin-left: 1em;
-    font-weight: bold;
-    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
-}
-
 #logo{
     margin-left: 0;
 }
@@ -124,4 +107,20 @@ a{
     font-weight: bold;
 }
 
+
+@media screen and (max-width: 991px) {
+    .card-margin {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 575px) {
+    .card-margin {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 470px) {
+    .genre-count {
+        display: none;
+    }
+}
 

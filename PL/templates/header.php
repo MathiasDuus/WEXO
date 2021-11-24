@@ -30,10 +30,10 @@ session_start();
                 <div class="navbar-nav ms-auto">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#login">Login</a>
+                            <a class="nav-link" href="../pages/login/login.php">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#register">Register</a>
+                            <a class="nav-link" href="../pages/login/register.php">Register</a>
                         </li>
                     </ul>
 
