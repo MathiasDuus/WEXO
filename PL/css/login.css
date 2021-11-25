@@ -12,15 +12,35 @@ body{
     min-height: 200px;
     width: 50%;
     margin-left: 25%;
-    margin-top: 25vh;
+    margin-top: 3vh;
     border-radius: 10px;
     padding: 1.5rem;
+}
+
+.password{
+    border-color: #ced4da;
+}
+
+.password-success{
+    border-color: green;
+}
+
+.password-error{
+    border-color: red;
+}
+
+.password-check{
+    color: red;
+}
+
+.password-check-success{
+    color: green;
 }
 
 @media screen and (max-width: 900px) {
     .login {
         width: 100%;
         margin-left: 0;
-        margin-top: 15vh;
+        margin-top: 0;
     }
 }

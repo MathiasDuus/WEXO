@@ -27,17 +27,34 @@ session_start();
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
+                <?php
+                if ($_SESSION['login']){
+                ?>
+                <div class="navbar-nav ms-auto">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../pages/user.php">My wishlist</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="logout()">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+                <?php
+                }else{
+                ?>
                 <div class="navbar-nav ms-auto">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" href="../pages/login/login.php">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/login/register.php">Register</a>
+                            <a class="nav-link" href="../pages/login/register.php">Sign-up</a>
                         </li>
                     </ul>
 
                 </div>
+                <?php } ?>
             </div>
         </div>
     </nav>
