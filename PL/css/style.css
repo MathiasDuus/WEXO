@@ -121,6 +121,11 @@ a{
     width: fit-content;
 }
 
+.success{
+    color: darkgreen;
+    border: green 1px solid;
+    background-color: lightgreen;
+}
 
 @media screen and (max-width: 991px) {
     .card-margin {

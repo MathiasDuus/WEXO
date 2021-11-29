@@ -1,4 +1,5 @@
 <?php
+include "Connect.php";
 
 class Data
 {
@@ -137,13 +138,33 @@ class Data
         return $arr;
     }
     
-       
-    function getProgram(int $id)//: array
+    /**
+     * Gets a program based on its id
+     * @param int $id       id of movie
+     * @param int $userID   id of user
+     * @return array        Assoc array with All relevant info about the movie
+     */
+    function getProgram(int $id, int $userID): array
     {
         $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/'.$id.'?form=json&lang=en';
     
         $result = [];
         
+        if ($userID != -1) {
+            global $conn;
+            $stmt = $conn->prepare("SELECT * FROM wishlist WHERE program=? AND userID = ?");
+            $stmt->bind_param("ii", $id, $userID);
+            if ($stmt->execute()) {
+                $db = $stmt->get_result();
+                if (mysqli_num_rows($db) > 0) {
+                    $result['wishlist'] = true;
+                } else {
+                    $result['wishlist'] = false;
+                }
+            }
+        }else{
+            $result['wishlist'] = "login";            
+        }
     
         $curl = curl_init($url);
     

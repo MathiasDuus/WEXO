@@ -1,4 +1,5 @@
 const projectHandler = "../../BLL/dataHandler.php";
+const wishlistHandler = "../../BLL/wishlistHandler.php";
 
 $(document).ready(function (){
     const queryString = window.location.search.substring(1);
@@ -17,14 +18,12 @@ $(document).ready(function (){
                 alert(info['message']);
             else {
                 // calls function to display the movie
-                program(info);
+                program(info, id);
             }
         });
 })
 
-
-
-function program(data){
+function program(data, id){
     // Adds backdrop if any
     if (data['backdrop'] !==""){
         $('.backdrop').css('background-image', 'url(' + data['backdrop'] + ')');
@@ -36,14 +35,16 @@ function program(data){
     appendString += "<div class='row'> <h1 class='movie-title'>"+data['title']+"</h1> </div>";
     
     // Add to wishlist button
-    appendString += '' +
-        '<div class="row"> <div class="ms-auto form-check">' +
-        '  <input onclick="addWishlist()" class="form-check-input" type="checkbox" id="wishlistCheck">' +
-        '  <label class="form-check-label" for="wishlistCheck">' +
-        '    Add to wishlist' +
-        '  </label>' +
-        '</div></div>'
-
+    if (data['wishlist'] !== "login") {
+        let checked = data['wishlist'] ? "checked" : "";
+        appendString += '' +
+            '<div class="row"> <div class="ms-auto form-check">' +
+            '  <input onclick="addWishlist(' + id + ')" class="form-check-input" ' + checked + ' type="checkbox" id="wishlistCheck">' +
+            '  <label class="form-check-label" for="wishlistCheck">' +
+            '    Add to wishlist' +
+            '  </label>' +
+            '</div></div>'
+    }
     
     appendString += "<div class='row'>";
     
@@ -103,26 +104,34 @@ function program(data){
     $('.container').append(appendString);
 }
 
-function addWishlist(){
-    if (document.getElementById('#wishlistCheck').checked){
+function addWishlist(id){
+    $('#status').empty();
+    if (document.getElementById('wishlistCheck').checked){
         // Add movie to wishlist
-        $.post(projectHandler,
-            {
-                action: 'add',
-                id: id
-            },
-            function(response){
-                console.log(response)
-                let info = JSON.parse(response);
-                // If there is an error alert it
-                if (info['status'] === "error")
-                    alert(info['message']);
-                else {
-                    // calls function to display the movie
-                    program(info);
-                }
-            });
+        let msg = "Program added to wishlist"
+        postWishlist('add', msg, id)
     } else {
         // Removes movie from wishlist
+        let msg = "Program removed from wishlist"
+        postWishlist('remove', msg, id)
+        
     }
+}
+
+function postWishlist(action, msg, id){
+    $.post(wishlistHandler,
+        {
+            action: action,
+            movie_id: id
+        },
+        function(response){
+            console.log(response)
+            let info = JSON.parse(response);
+
+            if (info['status'] === "error")
+                alert(info['message']);
+            else {
+                alert(msg)
+            }
+        });
 }

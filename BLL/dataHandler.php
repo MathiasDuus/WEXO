@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../DAL/Data.php";
 $data = new Data();
 
@@ -43,8 +44,12 @@ if ($action == "showGenre") {
 
 if ($action == "program") {
     $id = $_POST['id'];
+    if (isset($_SESSION['user_id']))
+        $userID = $_SESSION['user_id'];
+    else 
+        $userID = -1;
     
-    $result = $data->getProgram($id);
+    $result = $data->getProgram($id, $userID);
     
     // Converts the array to JSON before sending it back
     echo json_encode($result);

@@ -19,6 +19,7 @@ $("form#loginForm").submit(function(e) {
         contentType: false,
         processData: false,
         success: function(response){
+            console.log(response)
             let info = JSON.parse(response);
             if (info['status'] === "error")
                 alert(info['message']);

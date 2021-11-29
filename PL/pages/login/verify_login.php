@@ -38,8 +38,9 @@ class verify
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             if (mysqli_num_rows($result) > 0) {
-                $hashedPassword = $result->fetch_assoc()['password'];
-                $id = $result->fetch_assoc()['id'];
+                $row = $result->fetch_assoc();
+                $hashedPassword = $row['password'];
+                $id = $row['id'];
                 if (password_verify($password, $hashedPassword)) {
                     $response = array(
                         "status" => "success",
