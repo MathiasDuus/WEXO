@@ -70,9 +70,10 @@ function showGenre(info,type,col){
                 
                 let n = 17;
                 let title = movie['title'];
+                let programID = movie['url'].split('/').pop();
                 title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
                 appendString += '' +
-                    '<div class="col-2 card-margin"><div class="card">' +
+                    '<div class="col-2 card-margin" onclick="showProgram('+programID+')"><div class="card">' +
                     '<img class="card-img card-image" src="' + movie["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
                     '<h3 class="movie-title">' + title + '</h3>' +
                     '</div></div>';

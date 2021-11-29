@@ -68,9 +68,10 @@ function showContent(info,type,col){
                 
                 let n = 17;
                 let title = content['title'];
+                let programID = content['url'].split('/').pop();
                 title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
                 appendString += '' +
-                    '<div class="col-4 card-margin"><div class="card">' +
+                    '<div class="col-4 card-margin" onclick="showProgram('+programID+')"><div class="card">' +
                     '<img class="card-img card-image" src="' + content["poster"] + '" alt="Movie_poster" onerror="imgError(this);" >' +
                     '<h3 class="movie-title">' + title + '</h3>' +
                     '</div></div>';
@@ -95,6 +96,7 @@ function showGenre(genre,type){
     window.location.href = "./showGenre.php?genre="+genre+"&type="+type+"&range=1-18";
     
 }
+
 
 
 

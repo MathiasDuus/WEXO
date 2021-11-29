@@ -26,6 +26,7 @@ class Register
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
         $user = $result->num_rows;
         
         if ($user==0) {
@@ -38,6 +39,7 @@ class Register
                     "message" => "Account created"
                 );
                 $_SESSION['login'] = true;
+                $_SESSION['user_id'] = $stmt->insert_id;
             }
         }else{
             $response = array(
@@ -46,6 +48,7 @@ class Register
             );
             $_SESSION['login'] = false;
         }
+        $stmt->close();
         return $response;
     }
 }

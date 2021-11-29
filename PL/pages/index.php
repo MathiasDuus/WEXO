@@ -1,5 +1,12 @@
 <?php
 include "../templates/header.php";
+//include "../../DAL/Data.php";
+//$dat = new Data();
+//$movies = $dat->getData("movie");
+//print("<pre style='background-color: white'>".print_r($movies,true)."</pre>");
+//$genres = ["action","comedy","thriller","war","romance","drama","crime","documentary","horror"];
+//$movies = $dat->getGenreCount($genres);
+
 
 ?>
 
@@ -25,6 +32,6 @@ include "../templates/header.php";
 
 
 <?php
-include "../templates/footer.html";
+include "../templates/jsLinks.html";
 ?>
 <script src="../js/frontpage.js"></script>

@@ -21,6 +21,6 @@ include "../templates/header.php";
     </div>
 
 <?php
-include "../templates/footer.html";
+include "../templates/jsLinks.html";
 ?>
 <script src="../js/showGenre.js"></script>

@@ -41,3 +41,12 @@ if ($action == "showGenre") {
     echo json_encode($result);
 }
 
+if ($action == "program") {
+    $id = $_POST['id'];
+    
+    $result = $data->getProgram($id);
+    
+    // Converts the array to JSON before sending it back
+    echo json_encode($result);
+}
+

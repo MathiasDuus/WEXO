@@ -11,7 +11,7 @@ class Data
      */
     function getData(string $type, int $number=1, array $genres = [""]): array
     {
-        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&range=1-'.$number;
+        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&range=1-'.$number;
         
         $result = [];
         $arr = [];
@@ -30,20 +30,9 @@ class Data
                     "message"=>"Wrong URL".$output);
             
             $response = json_decode($output,true)['entries'];
-            
-            $i = 0;
-            foreach ($response as $content) {
-                $arr[$i]['title'] = $content['title'];
-                foreach ($content['plprogram$thumbnails'] as $images) {
-                    foreach ($images['plprogram$assetTypes'] as $image) {
-                        if ($image=="Poster"){
-                            $arr[$i]['poster'] = $images['plprogram$url'];
-                            break;
-                        }
-                    }
-                }
-                $i++;
-            }
+//            return $response;
+    
+            $arr =  $this->filterContent($response);
             
             if($genre == ""){
                 $genre = "no_genre";
@@ -65,13 +54,13 @@ class Data
     function getGenreCount(mixed $genres, string $type):mixed
     {
         if (!is_array($genres)){
-            $response = file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genres);
+            $response = file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genres);
             return json_decode($response,true)['entryCount'];
         }
         else{
             $count = [];
             foreach ($genres as $genre) {
-                $response = json_decode(file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre),true)['entryCount'];
+                $response = json_decode(file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre),true)['entryCount'];
                 if($response <= 0)
                     continue;
                 array_push($count, $response);
@@ -90,7 +79,7 @@ class Data
      */
     function getAllGenre(string $type, string $genre, string $range): array
     {        
-        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byProgramType='.$type
+        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type
             .'&byTags='.$genre.'&range='.$range;
         
         $result = [];
@@ -109,9 +98,29 @@ class Data
         
         $response = json_decode($output,true)['entries'];
         
+        $arr =  $this->filterContent($response);
+    
+    
+        if($genre == ""){
+            $genre = "no_genre";
+        }
+        $result[$genre] = $arr;
+        
+        return $result;
+    }
+    
+    /**
+     * Filters the data and returns title, id, poster
+     * @param array $response
+     * @return array
+     */
+    private function filterContent(array $response):array
+    {
+        $arr = [];
         $i = 0;
         foreach ($response as $content) {
             $arr[$i]['title'] = $content['title'];
+            $arr[$i]['url'] = $content['id'];
             foreach ($content['plprogram$thumbnails'] as $images) {
                 foreach ($images['plprogram$assetTypes'] as $image) {
                     if ($image=="Poster"){
@@ -122,14 +131,69 @@ class Data
             }
             $i++;
         }
+    
+    
+    
+        return $arr;
+    }
+    
+       
+    function getProgram(int $id)//: array
+    {
+        $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/'.$id.'?form=json&lang=en';
+    
+        $result = [];
         
-        if($genre == ""){
-            $genre = "no_genre";
+    
+        $curl = curl_init($url);
+    
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+    
+        if (isset($output['responseCode']))
+            return array(
+                "status"=>"error",
+                "message"=>"Wrong URL".$output);
+    
+        $output = json_decode($output,true);
+        
+        
+        $result['title'] = $output['title'];
+        $result['description'] = $output['description'];
+        $result['year'] = $output['plprogram$year'];
+        
+        foreach ($output['plprogram$thumbnails'] as $images) {
+            foreach ($images['plprogram$assetTypes'] as $image) {
+                if ($image=="Backdrop"){
+                    $result['backdrop'] = $images['plprogram$url'];
+                }
+                if ($image=="Poster"){
+                    $result['poster'] = $images['plprogram$url'];
+                }
+            }
         }
-        $result[$genre] = $arr;
+        $j = 0;
+        foreach ($output['plprogram$tags'] as $tag) {
+            if ($tag['plprogram$scheme'] =="genre"){
+                $result['genre'][$j] = $tag['plprogram$title'];
+            }
+            $j++;
+        }
         
+        $i = 0;
+        $first = true;
+        foreach ($output['plprogram$credits'] as $person) {
+            if ($person['plprogram$creditType'] == "actor" && $first){
+                $i = 0;
+                $first = false;
+            }
+            $result[$person['plprogram$creditType']][$i] = $person['plprogram$personName'];
+            $i++;
+        }
         
         return $result;
     }
+    
 }
 

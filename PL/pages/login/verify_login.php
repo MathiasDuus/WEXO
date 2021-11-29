@@ -39,12 +39,14 @@ class verify
             $result = $stmt->get_result();
             if (mysqli_num_rows($result) > 0) {
                 $hashedPassword = $result->fetch_assoc()['password'];
+                $id = $result->fetch_assoc()['id'];
                 if (password_verify($password, $hashedPassword)) {
                     $response = array(
                         "status" => "success",
                         "message" => "Du er logget ind"
                     );
                     $_SESSION['login'] = true;
+                    $_SESSION['user_id'] =$id;
                 } else {
                     $response = array(
                         "status" => "error",
@@ -60,6 +62,7 @@ class verify
                 $_SESSION['login'] = false;
             }
         }
+        $stmt->close();
         return $response;
     }
 
