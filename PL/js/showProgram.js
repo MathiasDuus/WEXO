@@ -11,7 +11,6 @@ $(document).ready(function (){
             id: id
         },
         function(response){
-        console.log(response)
             let info = JSON.parse(response);
             // If there is an error alert it
             if (info['status'] === "error")
@@ -56,28 +55,35 @@ function program(data, id){
 
 
     appendString += '<div class="col"><div class="row">';
-    // Left side general info
+    // release year
     appendString += '<div class="col card-margin">'+
-        '<h3> <span class="red-text">Release year:</span> '+data['year']+'</h3>' +
-        '<h3> <span class="red-text">genre:';
-    data['genre'].forEach(function(genre, index, array){
-        appendString += '</span> '+genre;
-        if (index !== array.length - 1){
-            appendString += ','
-        }
-    });
+        '<h3> <span class="red-text">Release year:</span> '+data['year']+'</h3>';
+    
+    // Genre
+
+    appendString += '<h3> <span class="red-text">genre:';
+    if (data['genre'].length >=1) {
+        data['genre'].forEach(function (genre, index, array) {
+            appendString += '</span> ' + genre;
+            if (index !== array.length - 1) {
+                appendString += ','
+            }
+        });
+    }
     appendString += '</h3></div>'
 
         
     // Director(s)
     appendString += '<div class="col card-margin">' +
         '<h3> <span class="red-text">Director:</span> ';
-    data['director'].forEach(function(director, index, array){
-        appendString += '</span> '+director;
-        if (index !== array.length - 1){
-            appendString += ','
-        }
-    });
+    if (data['director'].length >=1) {
+        data['director'].forEach(function (director, index, array) {
+            appendString += '</span> ' + director;
+            if (index !== array.length - 1) {
+                appendString += ','
+            }
+        });
+    }
     
     appendString += '</h3></div></div><div class="row">';
     
@@ -86,12 +92,14 @@ function program(data, id){
     appendString += '</h3>'+
         '<h3> <span class="red-text">Actors:</span> ';
     
-    data['actor'].forEach((actor, index, array)=>{
-        appendString += '</span> '+actor;
-        if (index !== array.length - 1){
-            appendString += ','
-        }
-    });
+    if (data['actor'].length >=1) {
+        data['actor'].forEach((actor, index, array) => {
+            appendString += '</span> ' + actor;
+            if (index !== array.length - 1) {
+                appendString += ','
+            }
+        });
+    }
     appendString += '</h3>'
     
     // Description
@@ -125,13 +133,10 @@ function postWishlist(action, msg, id){
             movie_id: id
         },
         function(response){
-            console.log(response)
             let info = JSON.parse(response);
 
             if (info['status'] === "error")
                 alert(info['message']);
-            else {
-                alert(msg)
-            }
         });
 }
+

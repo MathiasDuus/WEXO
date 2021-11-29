@@ -5,7 +5,7 @@ include "../templates/header.php";
 
 <div class="container">
     <div class="row">
-        <h1 id="wishlist-name"></h1>
+        <h1>My wishlist</h1>
     </div>
 </div>
 
@@ -15,4 +15,4 @@ include "../templates/header.php";
 <?php
 include "../templates/jsLinks.html";
 ?>
-<script src="../js/frontpage.js"></script>
+<script src="../js/showWishlist.js"></script>

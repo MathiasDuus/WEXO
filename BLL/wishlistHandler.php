@@ -28,4 +28,12 @@ if ($action == "remove"){
 }
 
 
+// Add item to wishlist
+if ($action == "show"){
+    $userID = $_SESSION['user_id'];
+    
+    $result = $data->show($userID);
+    
+    echo json_encode($result);
+}
 

@@ -26,7 +26,8 @@ class Wishlist
                 "message" => "Could not add program to wishlist"
             );
         }
-        
+    
+        $stmt->close();
         return $response;
     }
     
@@ -52,7 +53,35 @@ class Wishlist
                 "message" => "Could not add program to wishlist"
             );
         }
+    
+        $stmt->close();
+        return $response;
+    }
+    
+    /**
+     * Gets everything on users wishlist
+     * @param int $userID   user id
+     * @return string[]     programs on the wishlist
+     */
+    function show(int $userID):array
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT program FROM wishlist WHERE userID=?");
+        $stmt->bind_param("i", $userID);
+    
+        if ($stmt->execute()) {
+            $response = array(
+                "status" => "success",
+                "message" => $stmt->get_result()->fetch_assoc()
+            );
+        }else{
+            $response = array(
+                "status" => "error",
+                "message" => "Could not add program to wishlist"
+            );
+        }
         
+        $stmt->close();
         return $response;
     }
 }
