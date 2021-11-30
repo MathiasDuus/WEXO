@@ -25,14 +25,16 @@ class Data
             $output = curl_exec($curl);
             curl_close($curl);
             
+            // checks for error
             if (isset($output['responseCode']))
                 return array(
                     "status"=>"error",
                     "message"=>"Wrong URL".$output);
-            
-            $response = json_decode($output,true)['entries'];
-//            return $response;
     
+            // converts the response to an array
+            $response = json_decode($output,true)['entries'];
+            
+            // Get id, title and poster
             $arr =  $this->filterContent($response);
             
             if($genre == ""){
@@ -92,13 +94,16 @@ class Data
         $output = curl_exec($curl);
         curl_close($curl);
         
+        // Checks for error
         if (isset($output['responseCode']))
             return array(
                 "status"=>"error",
                 "message"=>"Wrong URL".$output);
         
+        // converts the response to an array
         $response = json_decode($output,true)['entries'];
         
+        // Get id, title and poster
         $arr =  $this->filterContent($response);
     
     
@@ -112,8 +117,8 @@ class Data
     
     /**
      * Filters the data and returns title, id, poster
-     * @param array $response
-     * @return array
+     * @param array $response   The response 
+     * @return array            title, id and poster
      */
     private function filterContent(array $response):array
     {
@@ -150,9 +155,11 @@ class Data
     
         $result = [];
         
+        // Checks if userID was given
         if ($userID != -1) {
+            // Check if the program is on the users wishlist
             global $conn;
-            $stmt = $conn->prepare("SELECT * FROM wishlist WHERE program=? AND userID = ?");
+            $stmt = $conn->prepare("SELECT id FROM wishlist WHERE program=? AND userID = ?");
             $stmt->bind_param("ii", $id, $userID);
             if ($stmt->execute()) {
                 $db = $stmt->get_result();
@@ -171,12 +178,14 @@ class Data
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
         curl_close($curl);
-    
+        
+        // Check for error
         if (isset($output['responseCode']))
             return array(
                 "status"=>"error",
                 "message"=>"Wrong URL".$output);
-    
+        
+        // Converts the response to an array
         $output = json_decode($output,true);
         
         
@@ -184,6 +193,7 @@ class Data
         $result['description'] = $output['description'];
         $result['year'] = $output['plprogram$year'];
         
+        // Finds the backdrop and poster 
         foreach ($output['plprogram$thumbnails'] as $images) {
             foreach ($images['plprogram$assetTypes'] as $image) {
                 if ($image=="Backdrop"){
@@ -194,6 +204,8 @@ class Data
                 }
             }
         }
+        
+        // Finds the genres
         $j = 0;
         foreach ($output['plprogram$tags'] as $tag) {
             if ($tag['plprogram$scheme'] =="genre"){
@@ -202,9 +214,11 @@ class Data
             $j++;
         }
         
+        // Finds the director(s) and actor(s)
         $i = 0;
         $first = true;
         foreach ($output['plprogram$credits'] as $person) {
+            // When the first actor is found reset i to 0
             if ($person['plprogram$creditType'] == "actor" && $first){
                 $i = 0;
                 $first = false;

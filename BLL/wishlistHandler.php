@@ -1,13 +1,15 @@
 <?php
 session_start();
 
+// checks for user id, if none echo error and die
 if (!isset($_SESSION['user_id'])){
     echo json_encode("no_login");
     die();
 }
+
 include "../DAL/Wishlist.php";
-$wish = new Wishlist();
 include "../DAL/Data.php";
+$wish = new Wishlist();
 $data = new Data();
 
 // Determines what action should be taken
@@ -35,7 +37,7 @@ if ($action == "remove"){
 }
 
 
-// Add item to wishlist
+// Show all items on wishlist
 if ($action == "show"){
     $userID = $_SESSION['user_id'];
     
@@ -45,7 +47,6 @@ if ($action == "show"){
     
     
     foreach ($programs['message'] as $program) {
-//        print_r($program['program']);
         $temp = $data->getProgram($program['program'], $userID);
         $temp['id'] = $program['program'];
         array_push($result, $temp);

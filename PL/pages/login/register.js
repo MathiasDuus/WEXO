@@ -1,11 +1,13 @@
+// Disables the register button 
 $("#register-btn").prop("disabled",true);
 
 
 $( ".password" ).on('input', function() {
+    // Gets the value of both password boxes
     let password = $('#password').val();
     let password2 = $('#password2').val();
     
-    
+    // Checks if they match
     if (password === password2) {
         $('.password').addClass(' password-success').removeClass(' password-error');
     }
@@ -13,6 +15,7 @@ $( ".password" ).on('input', function() {
         $('.password').addClass(' password-error').removeClass(' password-success');
     }
     
+    // Enables the register button if complexity requirements are met
     if (testPassword(password) && password === password2){
         $("#register-btn").prop("disabled", false);
     }else {
@@ -21,19 +24,15 @@ $( ".password" ).on('input', function() {
     
 });
 
-function goBack(){
-    window.history.back();
-}
-
 
 /**
  * Validates the password
- * @param password      string
- * @returns {boolean}   true on success
+ * @param password      string password
+ * @returns {boolean}   true on success, false on failure
  */
 function testPassword(password){
     let cl =' password-check-success';
-
+    
     let regExp = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*()]).{8,}/;
     
     
@@ -54,6 +53,7 @@ function testPassword(password){
 $("form#register").submit(function(e) {
     e.preventDefault();
 
+    // Gets the value of username and both passwords
     let username = $('#username').val();
     let password = $('#password').val();
     let password2 = $('#password2').val();
@@ -66,11 +66,12 @@ $("form#register").submit(function(e) {
             password2: password2
         },
         function(response){
-        console.log(response)
+            // Checks if the user was registered on success returns 
+            // to the previous page on failed alert shown
             let info = JSON.parse(response);
             if (info['status'] === "error")
                 alert(info['message']);
             if (info['status'] === "success")
-                location.assign("../")
+                goBack();
         });
 });

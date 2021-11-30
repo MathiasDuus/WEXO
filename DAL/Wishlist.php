@@ -7,7 +7,7 @@ class Wishlist
      * Adds a program to the users wishlist
      * @param int $userID       ID of user
      * @param int $programID    ID of the program to be added
-     * @return string[]
+     * @return string[]         Response [status, message]
      */
     function add(int $userID,int $programID):array
     {
@@ -35,7 +35,7 @@ class Wishlist
      * Removes a program to the users wishlist
      * @param int $userID       ID of user
      * @param int $programID    ID of the program to be added
-     * @return string[]
+     * @return string[]         Response [status, message]
      */
     function remove(int $userID,int $programID):array
     {
@@ -60,8 +60,8 @@ class Wishlist
     
     /**
      * Gets everything on users wishlist
-     * @param int $userID   user id
-     * @return string[]     programs on the wishlist
+     * @param int $userID   ID of user
+     * @return string[]     Programs on the wishlist
      */
     function show(int $userID):array
     {

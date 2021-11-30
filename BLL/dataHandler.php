@@ -32,7 +32,7 @@ if ($action == "showGenre") {
     $type = $_POST['type'];
     $range = $_POST['range'];
     
-    // Gets all data within the parameters
+    
     $movies = $data->getAllGenre($type, $genre, $range);
     
     $result[$type] = $movies;
@@ -44,10 +44,10 @@ if ($action == "showGenre") {
 
 if ($action == "program") {
     $id = $_POST['id'];
+    $userID=-1;
+    // Gets the user id if it is present, otherwise a default is used
     if (isset($_SESSION['user_id']))
         $userID = $_SESSION['user_id'];
-    else 
-        $userID = -1;
     
     $result = $data->getProgram($id, $userID);
     

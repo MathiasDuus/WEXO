@@ -2,6 +2,7 @@ const wishlistHandler = "../../BLL/wishlistHandler.php";
 
 
 $(document).ready(function() {
+    // POST call to PHP, to get all programs from wishlist
     $.post(wishlistHandler,
         {
             action: 'show'
@@ -15,25 +16,31 @@ $(document).ready(function() {
             if (info['status'] === "error")
                 alert(info['message']);
             else {
+                // Display the programs
                 show(info)
             }
         });
 });
 
-
+/**
+ * Displays all programs on the wishlist
+ * @param data  Array of programs
+ */
 function show(data) {
 
     data.forEach((program, index) => {
         let appendString = "";
-
+        
+        // Max length of the title
         let n = 17;
         let title = program['title'];
         title = (title.length > n) ? title.substr(0, n - 1) + '&hellip;' : title;
-        let checked = data['wishlist'] ? "checked" : "";
+        
+        // Card with checkbox the top, with poster and title below
         appendString += '' +
             '<div id="' + program['id'] + '" class="col-2">' +
             '   <div class="form-check">' +
-            '       <input value="' + program['id'] + '" class="form-check-input" ' + checked + ' type="checkbox" id="wishlistCheck' + index + '">' +
+            '       <input value="' + program['id'] + '" class="form-check-input" type="checkbox" id="wishlistCheck' + index + '">' +
             '       <label class="form-check-label" for="wishlistCheck' + index + '">' +
             '       Remove' +
             '       </label>' +
@@ -52,8 +59,12 @@ function show(data) {
 
 }
 
+/**
+ * Removes all selected programs from the wishlist
+ */
 function removeWishlist(){
-    $(':checkbox:checked').each(function(i){
+    // Loop to go through all checked checkboxes
+    $(':checkbox:checked').each(function(){
         let val = $(this).val();
         $.post(wishlistHandler,
             {
@@ -68,8 +79,6 @@ function removeWishlist(){
                     $('#'+val).remove();
             });
     });
-    
-    
 }
 
 /**

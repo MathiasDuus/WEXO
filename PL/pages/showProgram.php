@@ -13,4 +13,4 @@ include "../templates/header.php";
 <?php
 include "../templates/jsLinks.html";
 ?>
-<script src="../js/showProgram.js"></script>
+<script src="../js/program.js"></script>

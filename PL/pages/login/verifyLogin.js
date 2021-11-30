@@ -3,7 +3,7 @@
  */
 $("form#loginForm").submit(function(e) {
     e.preventDefault();
-    var fd = new FormData(this);
+    let fd = new FormData(this);
 
     let username = $('#username').val();
     let password = $('#password').val();
@@ -24,7 +24,7 @@ $("form#loginForm").submit(function(e) {
             if (info['status'] === "error")
                 alert(info['message']);
             if (info['status'] === "success")
-                location.assign("../")
+                goBack();
         },
     });
 });

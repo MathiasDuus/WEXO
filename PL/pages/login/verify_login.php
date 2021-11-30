@@ -8,9 +8,11 @@ $action = mysqli_real_escape_string($conn, $_POST['action']);
 if ($action == 'verify'){
     echo json_encode(verify::verifyLogin());
 }
+
 if ($action == 'logout'){
     echo json_encode(verify::logout());
 }
+
 class verify
 {
     static function ExtendedAddSlash(&$params)

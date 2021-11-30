@@ -10,7 +10,7 @@ class Register
      * @param string $password
      * @return array
      */
-    function signUp(string $username, string $password)
+    function signUp(string $username, string $password):array
     {
         global $conn;
     
@@ -29,6 +29,7 @@ class Register
         $stmt->close();
         $user = $result->num_rows;
         
+        // If username is not taken then create user
         if ($user==0) {
             $hashedPassword = password_hash($password,PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO login (username, password) VALUES (?, ?)");
@@ -49,6 +50,7 @@ class Register
             $_SESSION['login'] = false;
         }
         $stmt->close();
+        
         return $response;
     }
 }
