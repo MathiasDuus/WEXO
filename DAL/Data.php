@@ -141,10 +141,10 @@ class Data
     /**
      * Gets a program based on its id
      * @param int $id       id of movie
-     * @param int $userID   id of user
+     * @param int $userID   id of user (Optional)
      * @return array        Assoc array with All relevant info about the movie
      */
-    function getProgram(int $id, int $userID): array
+    function getProgram(int $id, int $userID = -1): array
     {
         $url = 'https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/'.$id.'?form=json&lang=en';
     

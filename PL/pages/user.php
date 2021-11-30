@@ -5,7 +5,11 @@ include "../templates/header.php";
 
 <div class="container">
     <div class="row">
-        <h1>My wishlist</h1>
+        <h1 class="width-fit">My wishlist</h1>
+        <button class="btn btn-m btn-danger width-fit ms-auto" onclick="removeWishlist()">Remove selected</button>
+    </div>
+    <div class="row" id="wishlist">
+        
     </div>
 </div>
 

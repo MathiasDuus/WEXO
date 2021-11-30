@@ -1,7 +1,14 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['user_id'])){
+    echo json_encode("no_login");
+    die();
+}
 include "../DAL/Wishlist.php";
-$data = new Wishlist();
+$wish = new Wishlist();
+include "../DAL/Data.php";
+$data = new Data();
 
 // Determines what action should be taken
 $action = $_POST['action'];
@@ -12,7 +19,7 @@ if ($action == "add"){
     $programID = $_POST['movie_id'];
     $userID = $_SESSION['user_id'];
     
-    $result = $data->add($userID, $programID);
+    $result = $wish->add($userID, $programID);
     
     echo json_encode($result);
 }
@@ -22,7 +29,7 @@ if ($action == "remove"){
     $programID = $_POST['movie_id'];
     $userID = $_SESSION['user_id'];
     
-    $result = $data->remove($userID, $programID);
+    $result = $wish->remove($userID, $programID);
     
     echo json_encode($result);
 }
@@ -32,7 +39,18 @@ if ($action == "remove"){
 if ($action == "show"){
     $userID = $_SESSION['user_id'];
     
-    $result = $data->show($userID);
+    $programs = $wish->show($userID);
+    
+    $result = [];
+    
+    
+    foreach ($programs['message'] as $program) {
+//        print_r($program['program']);
+        $temp = $data->getProgram($program['program'], $userID);
+        $temp['id'] = $program['program'];
+        array_push($result, $temp);
+    }
+    
     
     echo json_encode($result);
 }

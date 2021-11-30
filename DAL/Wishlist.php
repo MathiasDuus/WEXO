@@ -72,7 +72,7 @@ class Wishlist
         if ($stmt->execute()) {
             $response = array(
                 "status" => "success",
-                "message" => $stmt->get_result()->fetch_assoc()
+                "message" => $stmt->get_result()->fetch_all(MYSQLI_ASSOC)
             );
         }else{
             $response = array(

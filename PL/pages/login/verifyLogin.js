@@ -29,7 +29,6 @@ $("form#loginForm").submit(function(e) {
     });
 });
 
-
 function logout(){
     $.post("login/verify_login.php",
         {

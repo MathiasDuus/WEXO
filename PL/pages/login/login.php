@@ -18,7 +18,7 @@ session_start();
 </head>
 <body>
 
-<a class="btn btn-secondary" href="../">Frontpage</a>
+<button class="btn btn-secondary" onclick="goBack()">Back</button>
 
 <div class="login">
     <form id="loginForm">

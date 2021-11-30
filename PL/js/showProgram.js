@@ -33,11 +33,14 @@ function program(data, id){
     // add title
     appendString += "<div class='row'> <h1 class='movie-title'>"+data['title']+"</h1> </div>";
     
+    // add back button
+    appendString += '<div class="row"><button class="width-fit btn btn-m btn-secondary" onclick="goBack()">Back</button>'
+    
     // Add to wishlist button
     if (data['wishlist'] !== "login") {
         let checked = data['wishlist'] ? "checked" : "";
         appendString += '' +
-            '<div class="row"> <div class="ms-auto form-check">' +
+            '<div class="ms-auto form-check">' +
             '  <input onclick="addWishlist(' + id + ')" class="form-check-input" ' + checked + ' type="checkbox" id="wishlistCheck">' +
             '  <label class="form-check-label" for="wishlistCheck">' +
             '    Add to wishlist' +
@@ -140,3 +143,11 @@ function postWishlist(action, msg, id){
         });
 }
 
+/**
+ * Replaces a broken image with a placeholder
+ * @param image The image element
+ */
+function imgError(image) {
+    image.onerror = "";
+    image.src = "../billeder/lorem_poster.png";
+}

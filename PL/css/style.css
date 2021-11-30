@@ -127,6 +127,10 @@ a{
     background-color: lightgreen;
 }
 
+.width-fit{
+    width: fit-content
+}
+
 @media screen and (max-width: 991px) {
     .card-margin {
         width: 50%;

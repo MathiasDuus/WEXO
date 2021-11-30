@@ -21,6 +21,11 @@ $( ".password" ).on('input', function() {
     
 });
 
+function goBack(){
+    window.history.back();
+}
+
+
 /**
  * Validates the password
  * @param password      string
