@@ -33,10 +33,10 @@ session_start();
                 <div class="navbar-nav ms-auto">
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="../pages/user.php">My wishlist</a>
+                            <a class="nav-link cursor-point" href="../pages/user.php">My wishlist</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="logout()">Log out</a>
+                            <a class="nav-link cursor-point" onclick="logout()">Log out</a>
                         </li>
                     </ul>
                 </div>
