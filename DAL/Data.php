@@ -57,13 +57,20 @@ class Data
     function getGenreCount(mixed $genres, string $type):mixed
     {
         if (!is_array($genres)){
-            $response = file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genres);
+            $curl = curl_init('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genres);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $response = curl_exec($curl);
+            curl_close($curl);
             return json_decode($response,true)['entryCount'];
         }
         else{
             $count = [];
             foreach ($genres as $genre) {
-                $response = json_decode(file_get_contents('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre),true)['entryCount'];
+                $curl = curl_init('https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=en&byProgramType='.$type.'&fields=guid&range=0-10000&byTags=genre:'.$genre);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                $response = curl_exec($curl);
+                curl_close($curl);
+                $response = json_decode($response,true)['entryCount'];
                 if($response <= 0)
                     continue;
                 array_push($count, $response);
